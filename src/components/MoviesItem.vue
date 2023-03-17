@@ -1,13 +1,17 @@
 <template>
   <div class="movie">
-    <div class="movie__poster" :style="setPoster">
+    <div class="movie__poster" :style="setPoster" @mouseover="$emit('setPosterBg', this.movie.Poster)">
       <div class="movie__info" >
         <div class="movie__title">
           {{ movie.Title }}
           <div class="movie__year">{{ movie.Year }}</div>
         </div>
         <div class="movie__btns">
-          <div class="movie__btn">Info</div>
+          <div class="movie__btn"
+            @click="modalVisible"
+          >
+            Info
+          </div>
           <div class="movie__btn" @click="$emit('remove', movie)" @click.prevent>Delete</div>
         </div>
       </div>
@@ -18,7 +22,12 @@
 </template>
 
 <script>
+import MyModal from "@/components/UI/MyModal";
+
 export default {
+  components: {
+    MyModal,
+  },
   props: {
     movie: {
       type: Object,
@@ -31,7 +40,13 @@ export default {
         "background-image": `url(${this.movie.Poster})`,
       }
     }
+  },
+  methods: {
+    modalVisible() {
+      this.$emit("modalVisible", this.movie.imdbID);
+    }
   }
+
 
 }
 </script>
@@ -51,10 +66,9 @@ export default {
   height: 100%;
   overflow: hidden;
   transition: all 0.2s ease;
-  /* display: flex; */
+  display: flex;
   justify-content: space-between;
   flex-direction: column;
-  display: none;
 }
 .movie__info:hover {
   opacity: 1;

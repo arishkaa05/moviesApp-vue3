@@ -1,9 +1,8 @@
 <template>
   <div id="app" class="app">
-
-
+    <PosterBg :poster="posterBg" />
     <Navbar />
-    <MoviesList :moviesList="moviesList" @remove="removeMovie"/>
+    <MoviesList :moviesList="moviesList" @remove="removeMovie" @changePoster="onChangePoster"/>
     <div ref="observer" class="observer"></div>
   </div>
 </template>
@@ -15,6 +14,7 @@ import IDs from "@/store/imdb_top250";
 import MoviesList from '@/components/MoviesList';
 import MoviesItem from '@/components/MoviesItem';
 import Navbar from '@/components/Navbar'
+import PosterBg from "@/components/PosterBg";
 
 export default {
   data: () => ({
@@ -23,11 +23,13 @@ export default {
     currentPage: 1,
     top250IDs: IDs,
     totalPages: 0,
+    posterBg: "",
   }),
   components: {
     Navbar,
     MoviesItem,
     MoviesList,
+    PosterBg,
   },
   mounted() {
     this.fetchMovies();
@@ -73,18 +75,17 @@ export default {
         if (element.imdbID == movie.imdbID)
           this.moviesList = this.moviesList.filter(p => p.imdbID !== movie.imdbID)
       });
-    }
+    },
+    onChangePoster(poster) {
+      this.posterBg = poster;
+    },
   }
 }
 </script>
 
 <style>
-.app {
-  background: #340A4D;
+#app {
+  position: relative;
 }
-.title {
-  color: #fff;
-  margin: 0 20px 20px;
-  font-size: 40px;
-}
+
 </style>
