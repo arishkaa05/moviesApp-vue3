@@ -1,7 +1,11 @@
 <template>
   <div class="movie">
-    <div class="movie__poster" :style="setPoster" @mouseover="$emit('setPosterBg', this.movie.Poster)">
-      <div class="movie__info" >
+    <div class="movie__poster" :style="setPoster"
+      @mouseenter="isShow=!isShow"
+      @mouseleave="isShow=!isShow"
+      @mouseover="$emit('setPosterBg', this.movie.Poster)"
+    >
+      <div class="movie__info" v-if="isShow">
         <div class="movie__title">
           {{ movie.Title }}
           <div class="movie__year">{{ movie.Year }}</div>
@@ -25,6 +29,9 @@
 import MyModal from "@/components/UI/MyModal";
 
 export default {
+  data: () => ({
+    isShow: false
+  }),
   components: {
     MyModal,
   },

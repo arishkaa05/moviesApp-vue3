@@ -8,6 +8,7 @@
       </div>
       <div class="col-md-9">
         <div class="movie__title" >{{ this.movieInfo.Title }}</div>
+        <StarRating :rating="this.movieInfo.imdbRating"/>
         <div class="movie__plot">{{ this.movieInfo.Plot }}</div>
         <div class="movie__info-mini">
           <div class="movie__mini">{{ this.movieInfo.Year }}</div>
@@ -22,11 +23,16 @@
 </template>
 
 <script>
+import StarRating from "@/components/StarRating";
+
 export default {
   props: {
     movieInfo: {
       type: Object,
     }
+  },
+  components: {
+    StarRating,
   },
   computed: {
     setPoster() {

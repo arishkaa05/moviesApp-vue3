@@ -87,5 +87,7 @@ export default {
 #app {
   position: relative;
 }
-
+.observer {
+  height: 30px;
+}
 </style>
