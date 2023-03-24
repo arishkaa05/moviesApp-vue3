@@ -1,7 +1,7 @@
 <template>
   <div class="container">
-    <div class="title">IMDB Top 250</div>
-    <div class="moviesList">
+    <div class="moviesList" v-if="moviesList.length > 0">
+      <div class="title">IMDB Top 250</div>
       <div class="row" style="margin: 0;">
         <div class="col-md-3 col-sm-6" v-for="movie in moviesList" :key="movie.id" >
           <MoviesItem
@@ -13,6 +13,7 @@
         </div>
       </div>
     </div>
+    <div v-else class="title">Movies list is empty</div>
     <MyModal
       v-model:show="modalVisible"
     >{{ selectedMovie }}

@@ -15,7 +15,7 @@ export default {
   },
   data: () => ({
     defaultPosterBg:
-      "linear-gradient(45deg,rgb(0, 3, 38) 0%,rgb(82, 15, 117) 100%)"
+      "linear-gradient(90deg, rgba(9,8,47,1) 0%, rgba(84,20,119,1) 100%)"
   }),
   computed: {
     posterStyle() {
@@ -30,14 +30,11 @@ export default {
 };
 </script>
 
+
 <style scoped>
 .poster-page {
   opacity: 0.8;
-  background-image: linear-gradient(
-    45deg,
-    rgb(0, 3, 38) 0%,
-    rgb(54, 41, 61) 100%
-  );
+  background-image: linear-gradient(90deg, rgba(9,8,47,1) 0%, rgba(84,20,119,1) 100%);
   z-index: -1;
   position: absolute;
   top: 0;

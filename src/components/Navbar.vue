@@ -1,8 +1,8 @@
 <template>
   <div class="navbar">
     <div class="logo"></div>
-    <div class="search">
-      <input class="search__input" placeholder="Search..." v-model="searchQuery"  />
+    <div class="search" @input="$emit('search', this.searchValue)">
+      <input class="search__input" placeholder="Search..." :value="searchValue" @input="onSearchValueChange"/>
     </div>
     <div class="btn__add">Add movie</div>
   </div>
@@ -11,14 +11,11 @@
 <script>
 export default {
   data: () => ({
-    searchQuery: '',
+    searchValue: "",
   }),
-  watch: {
-    searchQuery: "sortedMovies",
-  },
   methods: {
-    sortedMovies() {
-      return console.log(this.searchQuery)
+    onSearchValueChange(event) {
+      this.searchValue = event.target.value;
     }
   }
 };

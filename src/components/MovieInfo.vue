@@ -16,7 +16,34 @@
           <div class="movie__mini">{{ this.movieInfo.Runtime }}</div>
           <div class="movie__mini">{{ this.movieInfo.Language }}</div>
         </div>
-
+        <table class="table small">
+          <tbody>
+            <tr>
+              <th>Production</th>
+              <td>{{ this.movieInfo.Production }}</td>
+            </tr>
+            <tr>
+              <th>Country</th>
+              <td>{{ this.movieInfo.Country }}</td>
+            </tr>
+            <tr>
+              <th>Director</th>
+              <td>{{ this.movieInfo.Director }}</td>
+            </tr>
+            <tr>
+              <th>Writer</th>
+              <td>{{ this.movieInfo.Writer }}</td>
+            </tr>
+            <tr>
+              <th>Actors</th>
+              <td>{{ this.movieInfo.Actors }}</td>
+            </tr>
+            <tr>
+              <th>Awards</th>
+              <td>{{ this.movieInfo.Awards }}</td>
+            </tr>
+          </tbody>
+        </table>
       </div>
     </div>
   </div>
@@ -65,11 +92,15 @@ export default {
   background-position: center center;
 }
 .movie__title {
-  font-size: 24px;
-  font-weight: 600;
+  font-size: 30px;
+}
+.movie__plot {
+  font-size: 18px;
+  margin-bottom: 10px;
 }
 .movie__info-mini {
   display: flex;
+  margin: 15px 0;
 }
 .movie__mini {
   margin: 0 5px;

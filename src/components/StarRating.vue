@@ -35,7 +35,6 @@ export default {
   }),
   computed: {
     ratingWidth() {
-      console.log(this.rating / this.starLimit * 100)
       return this.rating / this.starLimit * 100 + '%';
     }
   }
