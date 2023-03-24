@@ -35,6 +35,7 @@ export default {
 .poster-page {
   opacity: 0.8;
   background-image: linear-gradient(90deg, rgba(9,8,47,1) 0%, rgba(84,20,119,1) 100%);
+  background: cover;
   z-index: -1;
   position: absolute;
   top: 0;

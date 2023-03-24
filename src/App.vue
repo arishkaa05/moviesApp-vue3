@@ -99,8 +99,16 @@ export default {
     onChangePoster(poster) {
       this.posterBg = poster;
     },
-    searchMovie(value) {
-      console.log(value)
+    async searchMovie(value) {
+      let link = `http://www.omdbapi.com/?=${value}&apikey=e1b88ce`;
+      const response = await axios.get(link)
+      console.log(response)
+      // setTimeout(()=> {
+      //   this.moviesList.forEach(movie => {
+      //   if (movie.Title.toLowerCase().includes(value))
+      //     console.log(movie.Title)
+      //   });
+      // },500)
     }
   }
 }
@@ -108,8 +116,8 @@ export default {
 
 <style>
 .app {
-  /* position: relative; */
-  background-image: linear-gradient(90deg, rgba(9,8,47,1) 0%, rgba(84,20,119,1) 100%);
+  position: relative;
+  /* background-image: linear-gradient(90deg, rgba(9,8,47,1) 0%, rgba(84,20,119,1) 100%); */
 }
 .observer {
   height: 30px;

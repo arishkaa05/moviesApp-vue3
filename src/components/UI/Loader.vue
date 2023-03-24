@@ -17,6 +17,7 @@ export default {
   justify-content: center;
   height: 60px;
   margin-top: 100px;
+  margin-bottom: 100vh;
 }
 
 </style>
