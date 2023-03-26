@@ -9,10 +9,11 @@
     <template v-else>
       <MoviesList
         v-if="!isPostLoading"
-        :movieTitle="listTitle"
         :moviesList="listOfMovie"
+        :movieTitle="listTitle"
         @remove="removeMovie"
-        @changePoster="onChangePoster"/>
+        @changePoster="onChangePoster"
+        />
       <Loader v-else/>
     </template>
 
@@ -29,6 +30,8 @@ import MoviesItem from '@/components/MoviesItem';
 import Header from '@/components/Header'
 import PosterBg from "@/components/PosterBg";
 import Loader from '@/components/UI/Loader';
+import { fetchMovies } from "@/hooks/fetchMovies";
+
 
 export default {
   components: {
@@ -39,21 +42,15 @@ export default {
     Loader,
   },
   data: () => ({
-    moviesList: [],
     searchList: [],
     pageLimit: 12,
-    currentPage: 1,
     top250IDs: IDs,
-    totalPages: 0,
     posterBg: "",
-    isPostLoading: false,
     isError: false,
     msgError: '',
   }),
   mounted() {
-    this.fetchMovies();
     const options = {
-
     }
     const callback = (entries, observer) => {
       if (entries[0].isIntersecting) {
@@ -62,6 +59,7 @@ export default {
     }
     const observer = new IntersectionObserver(callback, options);
     observer.observe(this.$refs.observer)
+    observer = this.$refs.observer
   },
   computed: {
     listTitle() {
@@ -72,28 +70,6 @@ export default {
     }
   },
   methods: {
-    async fetchMovies() {
-      try {
-        this.isPostLoading = true;
-        setTimeout(async () => {
-          const from = this.currentPage * this.pageLimit - this.pageLimit;
-          const to = this.currentPage * this.pageLimit;
-          const moviesToFetch = this.top250IDs.slice(from, to);
-          this.totalPages = Math.ceil(this.top250IDs.length / this.pageLimit);
-          moviesToFetch.forEach(async id => {
-            let link = "http://www.omdbapi.com/?i=" + id +"&apikey=e1b88ce";
-            let response = await axios.get(link);
-            this.moviesList.push(response.data);
-            }
-          )
-          this.isPostLoading = false;
-        }, 1000)
-      } catch (e) {
-        alert('error')
-      } finally {
-
-      }
-    },
     async loadMoreMovies() {
       this.currentPage +=1;
       const from = this.currentPage * this.pageLimit - this.pageLimit;
@@ -142,6 +118,16 @@ export default {
       this.isError = false;
       this.msgError = '';
       this.searchList = []
+    }
+  },
+  setup(props) {
+    const { moviesList, totalPages, isPostLoading, currentPage} = fetchMovies(IDs, 12 )
+
+    return {
+      moviesList,
+      totalPages,
+      isPostLoading,
+      currentPage
     }
   }
 }

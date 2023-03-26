@@ -3,7 +3,6 @@
     <div class="moviesList" v-if="moviesList.length > 0">
       <div class="title">{{ movieTitle}}</div>
       <div class="row" style="margin: 0;">
-          <!-- <h3>{{moviesList}}</h3> -->
         <div class="col-md-3 col-sm-6" v-for="movie in moviesList" :key="movie.id" >
           <MoviesItem
             :movie="movie"
