@@ -79,7 +79,7 @@ export default {
 }
 .movie__info:hover {
   opacity: 1;
-  background: rgba(0, 0, 0, 0.7);
+  background: rgba(0, 0, 0, 0.8);
   display: flex;
 
 }

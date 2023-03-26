@@ -1,15 +1,21 @@
 <template>
   <div id="app" class="app">
     <PosterBg :poster="posterBg" />
-    <Navbar
+    <Header
       @search="searchMovie"
+      @removeSearch="removeSearch"
     />
-    <MoviesList
-      v-if="!isPostLoading"
-      :moviesList="moviesList"
-      @remove="removeMovie"
-      @changePoster="onChangePoster"/>
-    <Loader v-else/>
+    <div v-if="isError" class="msgError">{{ msgError }}</div>
+    <template v-else>
+      <MoviesList
+        v-if="!isPostLoading"
+        :movieTitle="listTitle"
+        :moviesList="listOfMovie"
+        @remove="removeMovie"
+        @changePoster="onChangePoster"/>
+      <Loader v-else/>
+    </template>
+
     <div ref="observer" class="observer"></div>
   </div>
 </template>
@@ -20,27 +26,30 @@ import "bootstrap/dist/css/bootstrap.css";
 import IDs from "@/store/imdb_top250";
 import MoviesList from '@/components/MoviesList';
 import MoviesItem from '@/components/MoviesItem';
-import Navbar from '@/components/Navbar'
+import Header from '@/components/Header'
 import PosterBg from "@/components/PosterBg";
 import Loader from '@/components/UI/Loader';
 
 export default {
+  components: {
+    Header,
+    MoviesItem,
+    MoviesList,
+    PosterBg,
+    Loader,
+  },
   data: () => ({
     moviesList: [],
+    searchList: [],
     pageLimit: 12,
     currentPage: 1,
     top250IDs: IDs,
     totalPages: 0,
     posterBg: "",
     isPostLoading: false,
+    isError: false,
+    msgError: '',
   }),
-  components: {
-    Navbar,
-    MoviesItem,
-    MoviesList,
-    PosterBg,
-    Loader,
-  },
   mounted() {
     this.fetchMovies();
     const options = {
@@ -53,6 +62,14 @@ export default {
     }
     const observer = new IntersectionObserver(callback, options);
     observer.observe(this.$refs.observer)
+  },
+  computed: {
+    listTitle() {
+      return this.searchList.length > 0 ? "Search result" : "IMDB Top 250";
+    },
+    listOfMovie() {
+      return this.searchList.length > 0 ? this.searchList : this.moviesList;
+    }
   },
   methods: {
     async fetchMovies() {
@@ -100,15 +117,31 @@ export default {
       this.posterBg = poster;
     },
     async searchMovie(value) {
-      let link = `http://www.omdbapi.com/?=${value}&apikey=e1b88ce`;
-      const response = await axios.get(link)
-      console.log(response)
-      // setTimeout(()=> {
-      //   this.moviesList.forEach(movie => {
-      //   if (movie.Title.toLowerCase().includes(value))
-      //     console.log(movie.Title)
-      //   });
-      // },500)
+      this.isPostLoading = true;
+      try {
+        setTimeout(async () => {
+          let link = "https://www.omdbapi.com/?s=" + value+"&apikey=e1b88ce";
+          let response = await axios.get(link)
+          if (response.data.Response !== 'False') {
+            response.data.Search.forEach(element => {
+            this.searchList.push(element)
+            this.isPostLoading = false;
+            });
+          }
+          else {
+            this.isError = true;
+            this.msgError = response.data.Error;
+            this.isPostLoading = false;
+          }
+        }, 500)
+      } catch (e) {
+      alert('error')
+      }
+    },
+    removeSearch() {
+      this.isError = false;
+      this.msgError = '';
+      this.searchList = []
     }
   }
 }
@@ -117,9 +150,15 @@ export default {
 <style>
 .app {
   position: relative;
-  /* background-image: linear-gradient(90deg, rgba(9,8,47,1) 0%, rgba(84,20,119,1) 100%); */
 }
 .observer {
   height: 30px;
+}
+.msgError{
+  color: white;
+  font-size: 36px;
+  text-align: center;
+  margin: 40px;
+  padding-bottom: 800px;
 }
 </style>

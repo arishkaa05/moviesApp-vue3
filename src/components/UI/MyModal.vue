@@ -48,7 +48,7 @@ export default {
 .modal__content {
   margin: auto;
   background: #f8f9fa;
-  min-height: 450px;
+  min-height: 350px;
   width: 720px;
   cursor: pointer;
 }

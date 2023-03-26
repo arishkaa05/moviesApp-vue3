@@ -1,8 +1,9 @@
 <template>
   <div class="container">
     <div class="moviesList" v-if="moviesList.length > 0">
-      <div class="title">IMDB Top 250</div>
+      <div class="title">{{ movieTitle}}</div>
       <div class="row" style="margin: 0;">
+          <!-- <h3>{{moviesList}}</h3> -->
         <div class="col-md-3 col-sm-6" v-for="movie in moviesList" :key="movie.id" >
           <MoviesItem
             :movie="movie"
@@ -42,6 +43,10 @@ export default {
     moviesList: {
       type: Array,
       required: true,
+    },
+    movieTitle: {
+      type: String,
+      required: true
     }
   },
   methods: {
@@ -59,7 +64,6 @@ export default {
       this.moviesList.forEach(movie => {
         if (movie.imdbID === this.selectedMovieID) {
           this.movieModal=movie
-          console.log(movie)
         }
       });
     }
